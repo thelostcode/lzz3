@@ -113,7 +113,7 @@ builtin-type-token -> VOID
 builtin-type-token -> WCHAR
 
 # elaborated type
-elab_type= elab-type -> class-key obj-name
+elab_type: elab-type -> class-key obj-name
 elab_type: elab-type -> ENUM obj-name
 elab_type: elab-type -> TYPENAME obj-name
 
@@ -135,38 +135,38 @@ class-key -> UNION
 ################################################################################
 
 # xxxS - ftor
-s_decl_spec_seq_1= xxxS-decl-spec-seq -> ftor-spec >!
-s_decl_spec_seq_2= xxxS-decl-spec-seq -> xxxS-decl-spec-seq ftor-spec
-s_decl_spec_seq_3= xxxS-decl-spec-seq ->
+s_decl_spec_seq_1: xxxS-decl-spec-seq -> ftor-spec >!
+s_decl_spec_seq_2: xxxS-decl-spec-seq -> xxxS-decl-spec-seq ftor-spec
+s_decl_spec_seq_3: xxxS-decl-spec-seq ->
 
 # xxVS - optional cv ftor
 xxVS-decl-spec-seq -> xxxS-decl-spec-seq >!
-v_decl_spec_seq_1= xxVS-decl-spec-seq -> cv-spec >!
-v_decl_spec_seq_2= xxVS-decl-spec-seq -> xxVS-decl-spec-seq cv-spec
+v_decl_spec_seq_1: xxVS-decl-spec-seq -> cv-spec >!
+v_decl_spec_seq_2: xxVS-decl-spec-seq -> xxVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: xxVS-decl-spec-seq -> xxVS-decl-spec-seq ftor-spec
 
 # xBVS - builtin cv ftor
-b_decl_spec_seq_1= xBVS-decl-spec-seq -> builtin-type >!
-b_decl_spec_seq_2= xBVS-decl-spec-seq -> xxVS-decl-spec-seq builtin-type
+b_decl_spec_seq_1: xBVS-decl-spec-seq -> builtin-type >!
+b_decl_spec_seq_2: xBVS-decl-spec-seq -> xxVS-decl-spec-seq builtin-type
 v_decl_spec_seq_2: xBVS-decl-spec-seq -> xBVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: xBVS-decl-spec-seq -> xBVS-decl-spec-seq ftor-spec
 b_decl_spec_seq_2: xBVS-decl-spec-seq -> xBVS-decl-spec-seq builtin-type
 
 # xUVS - user cv ftor
-u_decl_spec_seq_2= xUVS-decl-spec-seq -> xxxS-decl-spec-seq obj-name >!
+u_decl_spec_seq_2: xUVS-decl-spec-seq -> xxxS-decl-spec-seq obj-name >!
 u_decl_spec_seq_2: xUVS-decl-spec-seq -> xxVS-decl-spec-seq obj-name
 v_decl_spec_seq_2: xUVS-decl-spec-seq -> xUVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: xUVS-decl-spec-seq -> xUVS-decl-spec-seq ftor-spec
 
 # xEVS - elab type cv ftor
-e_decl_spec_seq_1= xEVS-decl-spec-seq -> elab-type >!
-e_decl_spec_seq_2= xEVS-decl-spec-seq -> xxVS-decl-spec-seq elab-type
+e_decl_spec_seq_1: xEVS-decl-spec-seq -> elab-type >!
+e_decl_spec_seq_2: xEVS-decl-spec-seq -> xxVS-decl-spec-seq elab-type
 v_decl_spec_seq_2: xEVS-decl-spec-seq -> xEVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: xEVS-decl-spec-seq -> xEVS-decl-spec-seq ftor-spec
 
 # TxVS - typedef cv ftor
-t_decl_spec_seq_1= TxVS-decl-spec-seq -> typedef-spec >!
-t_decl_spec_seq_2= TxVS-decl-spec-seq -> xxVS-decl-spec-seq typedef-spec
+t_decl_spec_seq_1: TxVS-decl-spec-seq -> typedef-spec >!
+t_decl_spec_seq_2: TxVS-decl-spec-seq -> xxVS-decl-spec-seq typedef-spec
 v_decl_spec_seq_2: TxVS-decl-spec-seq -> TxVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: TxVS-decl-spec-seq -> TxVS-decl-spec-seq ftor-spec
 
@@ -190,8 +190,8 @@ s_decl_spec_seq_2: TEVS-decl-spec-seq -> TEVS-decl-spec-seq ftor-spec
 v_decl_spec_seq_2: TEVS-decl-spec-seq -> TEVS-decl-spec-seq cv-spec
 
 # FxVS - friend cv ftor
-f_decl_spec_seq_1= FxVS-decl-spec-seq -> FRIEND >!
-f_decl_spec_seq_2= FxVS-decl-spec-seq -> xxVS-decl-spec-seq FRIEND
+f_decl_spec_seq_1: FxVS-decl-spec-seq -> FRIEND >!
+f_decl_spec_seq_2: FxVS-decl-spec-seq -> xxVS-decl-spec-seq FRIEND
 v_decl_spec_seq_2: FxVS-decl-spec-seq -> FxVS-decl-spec-seq cv-spec
 s_decl_spec_seq_2: FxVS-decl-spec-seq -> FxVS-decl-spec-seq ftor-spec
 

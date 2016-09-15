@@ -14,85 +14,91 @@ local getFuncParamTypes   = require 'lzz/param/get_func_param_types'
 local nodes               = require 'lzz_nodes'
 -----------------------------------------------------------------------------
 
+-- elab-type -> class-key obj-name
+function nodes.ElabType:onNode()
+   -- return key, name tuple
+   return {self[1].lexeme, self[2]}
+end
+
 -----------------------------------------------------------------------------
--- get decl spec, cv
+-- get decl spec
 -----------------------------------------------------------------------------
 local GetDeclSpec = {}
 
 -- xxVx-decl-spec-seq -> cv-spec
-function GetDeclSpec:onVDeclSpecSeq1 (node)
-   return DeclSpecSel ():addCv (node [1])
+function GetDeclSpec:onVDeclSpecSeq1(node)
+   return DeclSpecSel():addCv(node[1])
 end   
 -- xxVx-decl-spec-seq -> xxVx-decl-spec-seq cv-spec
-function GetDeclSpec:onVDeclSpecSeq2 (node)
-   return node [1]:accept (self):addCv (node [2])
+function GetDeclSpec:onVDeclSpecSeq2(node)
+   return node[1]:accept(self):addCv(node[2])
 end   
 
 -- xxxS-decl-spec-seq -> ftor-spec
-function GetDeclSpec:onSDeclSpecSeq1 (node)
-   return DeclSpecSel ():addFtor (node:getFtorSpec ())
+function GetDeclSpec:onSDeclSpecSeq1(node)
+   return DeclSpecSel():addFtor(node[1])
 end   
 -- xxxS-decl-spec-seq -> xxxS-decl-spec-seq ftor-spec
-function GetDeclSpec:onSDeclSpecSeq2 (node)
-   return node [1]:accept (self):addFtor (node:getFtorSpec ())
+function GetDeclSpec:onSDeclSpecSeq2(node)
+   return node[1]:accept(self):addFtor(node[2])
 end   
 -- xxxS-decl-spec-seq -> 
-function GetDeclSpec:onSDeclSpecSeq3 (node)
-   return DeclSpecSel ()
+function GetDeclSpec:onSDeclSpecSeq3(node)
+   return DeclSpecSel()
 end   
 
 -- xBxx-decl-spec-seq -> builtin-type
-function GetDeclSpec:onBDeclSpecSeq1 (node)
-   return DeclSpecSel ():addBuiltin (node:getBuiltinType ())
+function GetDeclSpec:onBDeclSpecSeq1(node)
+   return DeclSpecSel():addBuiltin(node[1])
 end
 -- xBxx-decl-spec-seq -> xBxx-decl-spec-seq builtin-type
 function GetDeclSpec:onBDeclSpecSeq2 (node)
-   return node [1]:accept (self):addBuiltin (node:getBuiltinType ())
+   return node[1]:accept(self):addBuiltin(node[2])
 end
 
--- xUVx-decl-spec-seq -> xxVx-decl-spec-seq obj-name
-function GetDeclSpec:onUDeclSpecSeq2 (node)
-   return node [1]:accept (self):setType (UserType (node:getObjName ()))
+-- xUVS-decl-spec-seq -> xxxS-decl-spec-seq obj-name
+function GetDeclSpec:onUDeclSpecSeq2(node)
+   return node[1]:accept(self):setType(UserType(node[2]))
 end
 
 -- xEVS-decl-spec-seq -> elab-type >!
-function GetDeclSpec:onEDeclSpecSeq1 (node)
-   local elab_type = node [1]
-   return DeclSpecSel ():setType (ElabType (elab_type [1].lexeme, elab_type [2]))
+function GetDeclSpec:onEDeclSpecSeq1(node)
+   local key, name = table.unpack(node[1])
+   return DeclSpecSel():setType(ElabType(key, name))
 end
 -- xEVS-decl-spec-seq -> xxVS-decl-spec-seq elab-type
-function GetDeclSpec:onEDeclSpecSeq2 (node)
-   local elab_type = node [2]
-   return node [1]:accept (self):setType (ElabType (elab_type [1].lexeme, elab_type [2]))
+function GetDeclSpec:onEDeclSpecSeq2(node)
+   local key, name = table.unpack(node[2])
+   return node[1]:accept(self):setType(ElabType(key, name))
 end
 
 -- Txxx-decl-spec-seq -> typedef-spec
-function GetDeclSpec:onTDeclSpecSeq1 (node)
-   return DeclSpecSel ():setTypedef (node:getTypedefSpec ())
+function GetDeclSpec:onTDeclSpecSeq1(node)
+   return DeclSpecSel():setTypedef(node[1])
 end
 -- TxVx-decl-spec-seq -> xxVx-decl-spec-seq typedef-spec
-function GetDeclSpec:onTDeclSpecSeq2 (node)
-   return node [1]:accept (self):setTypedef (node:getTypedefSpec ())
+function GetDeclSpec:onTDeclSpecSeq2(node)
+   return node[1]:accept(self):setTypedef(node[2])
 end
 
 -- FxVS-decl-spec-seq -> FRIEND >!
-function GetDeclSpec:onFDeclSpecSeq1 (node)
-   return DeclSpecSel ():setFriend (node [1])
+function GetDeclSpec:onFDeclSpecSeq1(node)
+   return DeclSpecSel():setFriend(node[1])
 end
 -- FxVS-decl-spec-seq -> xxVS-decl-spec-seq FRIEND
-function GetDeclSpec:onFDeclSpecSeq2 (node)
-   return node [1]:accept (self):setFriend (node [2])
+function GetDeclSpec:onFDeclSpecSeq2(node)
+   return node[1]:accept(self):setFriend(node[2])
 end
 
--- get decl spec
-local function getDeclSpec (node)
-   return node:accept (GetDeclSpec):getDeclSpec ()
+-- get decl spec from decl spec seq
+local function getDeclSpec(node)
+   return node:accept(GetDeclSpec):getDeclSpec()
 end
 
--- get decl spec cv, nil if node nil
-local function getCv (node)
+-- get cv from cv decl spec, nil if node nil
+local function getCv(node)
    if node then 
-      return node:accept (GetDeclSpec):getCv ()
+      return node:accept(GetDeclSpec):getCv()
    else
       return nil
    end
