@@ -387,12 +387,12 @@ ellipse-opt ->
 ellipse-opt -> ELLIPSE
 
 # param init decl, block can end with ')' or ','
-param_decl_1=	param-init-decl <* -> param-decl
-param_decl_2=	param-init-decl <* -> param-decl ASSIGN block 4
+param_decl_1= param-init-decl <* -> param-decl
+param_decl_2= param-init-decl <* -> param-decl ASSIGN block 4
 
 # same semantics as above but block can end with '>' or ','
-param_decl_1:	tmpl-param-init-decl <* -> param-decl 
-param_decl_2:	tmpl-param-init-decl <* -> param-decl ASSIGN block 8
+param_decl_1: tmpl-param-init-decl <* -> param-decl 
+param_decl_2: tmpl-param-init-decl <* -> param-decl ASSIGN block 8
 
 # nested name
 nested_name_1= nested-name -> DCOLON
@@ -401,9 +401,9 @@ nested-name-opt -> nested-name
 nested-name-opt -> 
 
 # object name
-name_1=	obj-name -> nested-name-opt obj-base-name
-name_2=	obj-name -> nested-name-opt obj-base-name LT >! block-opt 1 GT
-name_3=	obj-name -> nested-name TEMPLATE obj-base-name LT >! block-opt 1 GT
+name_1= obj-name -> nested-name-opt obj-base-name
+name_2= obj-name -> nested-name-opt obj-base-name LT >! block-opt 1 GT
+name_3= obj-name -> nested-name TEMPLATE obj-base-name LT >! block-opt 1 GT
 
 # function name
 name_1: fun-name -> nested-name-opt fun-base-name
@@ -533,20 +533,20 @@ simple-a-decl -> simple-c-decl
 
 # object and function
 
-simple_decl1=	simple-b-decl -> nested-obj-decl obj-init-opt
-simple_decl2=	simple-b-decl -> nested-fun-decl
+simple_decl1= simple-b-decl -> nested-obj-decl obj-init-opt
+simple_decl2= simple-b-decl -> nested-fun-decl
 
-nested_decl=	nested-obj-decl -> simple-b-decl COMMA obj-dcl
-nested_decl:	nested-fun-decl -> simple-b-decl COMMA fun-dcl
+nested_decl= nested-obj-decl -> simple-b-decl COMMA obj-dcl
+nested_decl: nested-fun-decl -> simple-b-decl COMMA fun-dcl
 
-		nested-obj-decl -> obj-decl
-		nested-fun-decl -> fun-decl
+nested-obj-decl -> obj-decl
+nested-fun-decl -> fun-decl
 
 # typedef
 
-simple_decl2:	simple-c-decl *< -> nested-tdef-decl
-nested_decl:	nested-tdef-decl -> simple-c-decl COMMA param-dcl
-		nested-tdef-decl -> tdef-decl
+simple_decl2: simple-c-decl *< -> nested-tdef-decl
+nested_decl: nested-tdef-decl -> simple-c-decl COMMA param-dcl
+nested-tdef-decl -> tdef-decl
 
 ################################################################################
 #
