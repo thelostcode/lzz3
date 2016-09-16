@@ -56,7 +56,11 @@ function GetDeclSpec:onBDeclSpecSeq2 (node)
    return node[1]:accept(self):addBuiltin(node[2])
 end
 
--- xUVS-decl-spec-seq -> xxxS-decl-spec-seq obj-name
+-- xUVx-decl-spec-seq -> obj-name
+function GetDeclSpec:onUDeclSpecSeq1(node)
+   return DeclSpecSel():setType(UserType(node[1]))
+end
+-- xUVx-decl-spec-seq -> xxVx-decl-spec-seq obj-name
 function GetDeclSpec:onUDeclSpecSeq2(node)
    return node[1]:accept(self):setType(UserType(node[2]))
 end
